@@ -2,13 +2,13 @@
 
 OS=$(uname)
 
-if [ "$OS" == 'FreeBSD' ]; then
+if [ "$OS" = 'FreeBSD' ]; then
     echo 'OS is FreeBSD'
     cpu=$(sysctl -n hw.model | sed -e 's/CPU//' | tr -s ' ')
     mem=$(($(sysctl -n hw.physmem) / 1024 / 1024))
     uname=$(uname -srmi)
 
-elif [ "$OS" == 'Linux' ]; then
+elif [ "$OS" = 'Linux' ]; then
     echo 'OS is Linux'
     cpu=$(cat /proc/cpuinfo |grep "model name" | awk -F ":" '{print $2}'|sed -e 's/ \+/ /g' -e 's/^ //')
     mem=$(free -m | grep Mem:|awk '{print $2}')
