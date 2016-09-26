@@ -4,15 +4,17 @@ OS=$(uname)
 
 if [ "$OS" = 'FreeBSD' ]; then
     echo 'OS is FreeBSD'
-    cpu=$(sysctl -n hw.model | sed -e 's/CPU//' | tr -s ' ')
+    cpu=$(sysctl -n hw.model | sed -e 's/CPU//' | tr -s ' '|uniq)
     mem=$(($(sysctl -n hw.physmem) / 1024 / 1024))
     uname=$(uname -srmi)
+    pkg install figlet
 
 elif [ "$OS" = 'Linux' ]; then
     echo 'OS is Linux'
-    cpu=$(cat /proc/cpuinfo |grep "model name" | awk -F ":" '{print $2}'|sed -e 's/ \+/ /g' -e 's/^ //')
+    cpu=$(cat /proc/cpuinfo |grep "model name" | awk -F ":" '{print $2}'|sed -e 's/ \+/ /g' -e 's/^ //'|uniq)
     mem=$(free -m | grep Mem:|awk '{print $2}')
     uname=$(uname -sr)
+    apt-get install figlet
 
 else
     echo 'Please run this script on FreeBSD or Linux hosts.'
